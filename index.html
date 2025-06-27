@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mines Clone</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="game-ui">
+    <!-- Header -->
+    <div class="top-bar">
+      <select id="mine-count">
+        <option value="1">Mines: 1</option>
+        <option value="3" selected>Mines: 3</option>
+        <option value="5">Mines: 5</option>
+        <option value="10">Mines: 10</option>
+      </select>
+      <span class="next-multiplier">Next: 1.10x</span>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid" id="board">
+      <!-- უჯრედები დაემატება JS-ით -->
+    </div>
+
+    <!-- Control Panel -->
+    <div class="bottom-panel">
+      <button id="random-btn">RANDOM</button>
+      <label>
+        <input type="checkbox" id="auto-game" />
+        Auto Game
+      </label>
+
+      <div class="bet-controls">
+        <span>Bet USD</span>
+        <div class="bet-input">
+          <button id="decrease">−</button>
+          <input type="number" id="bet" value="0.30" step="0.10" min="0.10" />
+          <button id="increase">+</button>
+        </div>
+      </div>
+
+      <button id="bet-btn" class="bet-button">BET</button>
+    </div>
+  </div>
+
+<script type="module" src="/src/main.ts"></script> <!-- ✅ -->
+</body>
+</html>
