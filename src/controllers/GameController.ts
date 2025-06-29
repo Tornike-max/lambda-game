@@ -8,6 +8,7 @@ export class GameController {
   totalCoefficient: number = 1;
   nextMultiplierSpan: HTMLElement | null;
   currentMultiplierSpan: HTMLElement | null;
+  cashoutButton: HTMLButtonElement | null;
 
   
 
@@ -17,6 +18,10 @@ export class GameController {
     this.nextMultiplierSpan = document.querySelector(".next-multiplier");
     this.currentMultiplierSpan = document.querySelector(".current-multiplier");
     this.attachEvents();
+    this.cashoutButton = document.getElementById("cashout-btn") as HTMLButtonElement;
+    if (this.cashoutButton) {
+      this.cashoutButton.addEventListener("click", () => this.cashout());
+    }
   }
 
   startGame() {
@@ -43,6 +48,10 @@ export class GameController {
         if (cell.hasMine) {
           alert("💥 Lost! Multiplier: x" + this.totalCoefficient.toFixed(2));
           this.isGameActive = false;
+
+          if (this.cashoutButton) {
+            this.cashoutButton.disabled = true;
+          }
         } else {
           this.revealedSafeCells++;
 
@@ -53,6 +62,10 @@ export class GameController {
         }
       };
     });
+
+    if (this.cashoutButton) {
+      this.cashoutButton.disabled = false;
+    }
   }
 
   getNextStepMultiplier(): number {
@@ -90,4 +103,20 @@ export class GameController {
 
     });
   }
+
+  cashout() {
+    if (!this.isGameActive) return;
+
+    const betInput = document.getElementById("bet") as HTMLInputElement;
+    const betAmount = parseFloat(betInput.value);
+    const winnings = betAmount * this.totalCoefficient;
+
+    alert(`✅ You cashed out: $${winnings.toFixed(2)} 💰 (x${this.totalCoefficient.toFixed(2)})`);
+    this.isGameActive = false;
+
+    if (this.cashoutButton) {
+      this.cashoutButton.disabled = true;
+    }
+  }
+
 }

@@ -69,3 +69,51 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
+.cashout-button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cashout-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+
+
+.cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #999;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+/* უსაფრთხო უჯრა */
+.cell.safe {
+  background-color: #a2f5a2; /* ღია მწვანე */
+}
+
+/* ნაღმი */
+.cell.mine {
+  background-color: #f55c5c; /* ღია წითელი */
+  background-image: url("💣"); /* თუ გინდა, შეიძლება სმაილიც ჩასვა */
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white;
+}
+
+.cell:hover {
+  background-color: #cccccc;
+}
