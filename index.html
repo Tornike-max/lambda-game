@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mines Clone</title>
+  <title>Lambda Test Game</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="game-ui">
-    <!-- Header -->
     <div class="top-bar">
       <select id="mine-count">
         <option value="1">Mines: 1</option>
@@ -16,15 +15,15 @@
         <option value="5">Mines: 5</option>
         <option value="10">Mines: 10</option>
       </select>
+      <span class="current-multiplier">Total: 1.00x</span>
       <span class="next-multiplier">Next: 1.10x</span>
     </div>
 
-    <!-- Grid -->
     <div class="grid" id="board">
-      <!-- უჯრედები დაემატება JS-ით -->
+         <!-- უჯრების ველოი -->
     </div>
 
-    <!-- Control Panel -->
+    <!-- ადგილი საიდანაც კონტროლდება თამაში -->
     <div class="bottom-panel">
       <button id="random-btn">RANDOM</button>
       <label>

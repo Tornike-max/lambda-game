@@ -4,33 +4,78 @@ export class GameController {
   board: Board;
   mineCount: number;
   isGameActive: boolean = false;
+  revealedSafeCells: number = 0;
+  totalCoefficient: number = 1;
+  nextMultiplierSpan: HTMLElement | null;
+  currentMultiplierSpan: HTMLElement | null;
+
+  
 
   constructor(boardContainer: HTMLElement) {
-    this.board = new Board(boardContainer,5,5);
+    this.board = new Board(boardContainer, 5, 5);
     this.mineCount = 3;
-
+    this.nextMultiplierSpan = document.querySelector(".next-multiplier");
+    this.currentMultiplierSpan = document.querySelector(".current-multiplier");
     this.attachEvents();
   }
 
   startGame() {
     this.isGameActive = true;
+    this.revealedSafeCells = 0;
+    this.totalCoefficient = 1;
+
     this.board.reset();
     this.board.placeMines(this.mineCount);
+    this.updateNextMultiplier();
 
-    this.board.cells.forEach((cell) => {
-      cell.element.onclick = () => {
+    interface ICell {
+      element: HTMLElement;
+      isRevealed: boolean;
+      hasMine: boolean;
+      reveal: () => void;
+    }
+
+    (this.board.cells as ICell[]).forEach((cell: ICell) => {
+      cell.element.onclick = (): void => {
         if (!this.isGameActive || cell.isRevealed) return;
-
         cell.reveal();
 
         if (cell.hasMine) {
-          alert("💥 Lost!");
+          alert("💥 Lost! Multiplier: x" + this.totalCoefficient.toFixed(2));
           this.isGameActive = false;
         } else {
-          // todo: კოეფიციენტის ზრდა, მოგების დათვლა
+          this.revealedSafeCells++;
+
+          const nextCoeff: number = this.getNextStepMultiplier();
+          this.totalCoefficient *= nextCoeff;
+
+          this.updateNextMultiplier();
         }
       };
     });
+  }
+
+  getNextStepMultiplier(): number {
+    const totalCells = this.board.cells.length;
+    const totalSafeCells = totalCells - this.mineCount;
+
+    const remainingSafe = totalSafeCells - this.revealedSafeCells;
+    const remainingCells = totalCells - this.revealedSafeCells;
+
+    if (remainingSafe <= 0 || remainingCells <= 0) return 1;
+
+    const odds = remainingSafe / remainingCells;
+    return 1 / odds;
+  }
+
+  updateNextMultiplier() {
+    const nextMultiplier = this.totalCoefficient * this.getNextStepMultiplier();
+    if (this.nextMultiplierSpan) {
+      this.nextMultiplierSpan.textContent = `Next: ${nextMultiplier.toFixed(2)}x`;
+    }
+    if (this.currentMultiplierSpan) {
+      this.currentMultiplierSpan.textContent = `Total: ${this.totalCoefficient.toFixed(2)}x`;
+    }
   }
 
   attachEvents() {
@@ -41,6 +86,8 @@ export class GameController {
     const dropdown = document.getElementById("mine-count") as HTMLSelectElement;
     dropdown?.addEventListener("change", () => {
       this.mineCount = parseInt(dropdown.value);
+          console.log(this.mineCount)
+
     });
   }
 }

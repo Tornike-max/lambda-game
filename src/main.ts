@@ -2,6 +2,15 @@ import { GameController } from './controllers/GameController';
 import './styles.scss';
 
 
-const boardContainer = document.getElementById("board")!;
-const game = new GameController(boardContainer);
+console.log("MAIN STARTED");
+
+const boardContainer = document.getElementById("board");
+console.log("Board container:", boardContainer);
+
+if (boardContainer) {
+  new GameController(boardContainer);
+} else {
+  console.error("❌ Board container not found");
+}
+
 
