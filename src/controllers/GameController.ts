@@ -1,4 +1,5 @@
 import { Board } from "../game/Board";
+import { formatMultiplier, formatUSD } from "../utils/formatters";
 
 export class GameController {
   board: Board;
@@ -9,6 +10,8 @@ export class GameController {
   nextMultiplierSpan: HTMLElement | null;
   currentMultiplierSpan: HTMLElement | null;
   cashoutButton: HTMLButtonElement | null;
+  autoButton: HTMLButtonElement | null = null;
+  randomButton: HTMLButtonElement | null = null;
 
   balance: number = 50000;
   balanceDisplay: HTMLElement | null;
@@ -20,7 +23,16 @@ export class GameController {
     this.currentMultiplierSpan = document.querySelector(".current-multiplier");
     this.cashoutButton = document.getElementById("cashout-btn") as HTMLButtonElement;
     this.balanceDisplay = document.getElementById("balanceAmount");
+    this.autoButton = document.getElementById("auto-btn") as HTMLButtonElement;
+    this.randomButton = document.getElementById("random-btn") as HTMLButtonElement;
 
+    if (this.randomButton) {
+      this.randomButton.addEventListener("click", () => this.clickRandomCell());
+      this.randomButton.disabled = true;
+    }
+    if (this.autoButton) {
+      this.autoButton.addEventListener("click", () => this.toggleAutoGame());
+    }
     this.attachEvents();
     this.updateBalanceUI();
 
@@ -42,10 +54,7 @@ export class GameController {
 
   updateBalanceUI() {
     if (this.balanceDisplay) {
-      this.balanceDisplay.textContent = `$${this.balance.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`;
+      this.balanceDisplay.textContent = formatUSD(this.balance);
     }
   }
 
@@ -91,6 +100,7 @@ export class GameController {
           if (this.cashoutButton) {
             this.cashoutButton.disabled = true;
           }
+          alert("💣 თამაში დასრულდა! შენ წააგე!");
         } else {
           this.revealedSafeCells++;
 
@@ -105,6 +115,30 @@ export class GameController {
     if (this.cashoutButton) {
       this.cashoutButton.disabled = false;
     }
+  }
+
+  clickRandomCell() {
+    if (!this.isGameActive) {
+      alert("⛔ ჯერ თამაში დაიწყე");
+      return;
+    }
+
+    const isAutoMode = this.autoButton?.textContent === "⏹ Stop";
+    if (!isAutoMode) {
+      alert("⛔ ჯერ ჩართე Auto რეჟიმი რომ რენდომ იმუშაოს");
+      return;
+    }
+
+    const unrevealedCells = (this.board.cells as any[]).filter(cell => !cell.isRevealed);
+
+    if (unrevealedCells.length === 0) {
+      alert("✅ ყველა უჯრედი უკვე გახსნილია");
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * unrevealedCells.length);
+    const cell = unrevealedCells[randomIndex];
+    cell.element.click();
   }
 
   getNextStepMultiplier(): number {
@@ -123,10 +157,40 @@ export class GameController {
   updateNextMultiplier() {
     const nextMultiplier = this.totalCoefficient * this.getNextStepMultiplier();
     if (this.nextMultiplierSpan) {
-      this.nextMultiplierSpan.textContent = `Next: ${nextMultiplier.toFixed(2)}x`;
+      this.nextMultiplierSpan.textContent = `Next: ${formatMultiplier(nextMultiplier)}`;
     }
     if (this.currentMultiplierSpan) {
-      this.currentMultiplierSpan.textContent = `Total: ${this.totalCoefficient.toFixed(2)}x`;
+      this.currentMultiplierSpan.textContent = `Total: ${formatMultiplier(this.totalCoefficient)}`;
+    }
+  }
+
+  toggleAutoGame() {
+    if (!this.isGameActive || !this.autoButton) return;
+
+    const isActive = this.autoButton.textContent === "⏹ Stop";
+
+    this.autoButton.textContent = isActive ? "🎲 Auto" : "⏹ Stop";
+
+    if (this.randomButton) {
+      this.randomButton.disabled = isActive; 
+    }
+  }
+
+
+  autoStep() {
+    const unrevealedCells = (this.board.cells as any[]).filter(cell => !cell.isRevealed);
+    if (unrevealedCells.length === 0) {
+      this.toggleAutoGame(); 
+      return;
+    }
+    const randomIndex = Math.floor(Math.random() * unrevealedCells.length);
+    const cell = unrevealedCells[randomIndex];
+
+    cell.element.click();
+
+    if (!this.isGameActive) {
+      this.toggleAutoGame();
+      return;
     }
   }
 

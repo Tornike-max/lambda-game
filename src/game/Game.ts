@@ -20,10 +20,5 @@ export class Game {
     container.appendChild(this.app.canvas)
     this.board = new Board(container,5,5);
 
-    this.app.ticker.add(() => this.update());
   }
-
-update() {
-  // Update logic for the board can be added here if needed
-}
 }

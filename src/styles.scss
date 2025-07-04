@@ -10,7 +10,7 @@ body {
 }
 
 .game-ui {
-  width: 550px;
+  width: 600px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -38,20 +38,50 @@ body {
 }
 
 .bottom-panel {
+  max-width: 700px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
 }
 
-.balance-display {
+.header-display {
   font-size: 1.2rem;
   font-weight: bold;
   color: #fff;
   margin-bottom: 1rem;
 }
 
+#mine-count {
+  padding: 8px 12px;
+  background-color: #1e3a8a;
+  color: white;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+#mine-count:hover {
+  background-color: #2563eb;
+}
+
+#mine-count:focus {
+  border-color: #60a5fa;
+  background-color: #1d4ed8;
+}
+
+#mine-count option {
+  background-color: #1e293b;
+  color: white;
+}
+
 .bet-controls {
   display: flex;
   flex-direction: column;
@@ -62,9 +92,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #2a4c7b;
-  border-radius: 25px;
-  padding: 12px 20px;
   width: fit-content;
   font-family: sans-serif;
 }
@@ -93,6 +120,58 @@ body {
   font-size: 18px;
   outline: none;
   padding: 4px 0;
+}
+
+button {
+  font-family: inherit;
+  font-size: 12px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease, transform 0.1s ease;
+  background-color: #2a4c7b;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+button:hover {
+  background-color: #3b6bc7;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #4a4a4a;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#auto-btn, #random-btn {
+  background-color: #1e40af; 
+  color: white;
+}
+
+#auto-btn:hover, #random-btn:hover {
+  background-color: #2563eb;
+}
+
+#bet-btn {
+  background-color: #facc15;
+  color: #1e293b;
+}
+
+#bet-btn:hover {
+  background-color: #fde047;
+}
+
+#cashout-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+#cashout-btn:hover {
+  background-color: #34d399;
 }
 
 .bet-buttons {
@@ -155,15 +234,14 @@ body {
   transition: background-color 0.2s ease;
 }
 
-/* უსაფრთხო უჯრა */
 .cell.safe {
-  background-color: #a2f5a2; /* ღია მწვანე */
+  background-color: #a2f5a2; 
 }
 
 /* ნაღმი */
 .cell.mine {
-  background-color: #f55c5c; /* ღია წითელი */
-  background-image: url("💣"); /* თუ გინდა, შეიძლება სმაილიც ჩასვა */
+  background-color: #f55c5c; 
+  background-image: url("💣"); 
   background-repeat: no-repeat;
   background-position: center;
   color: white;
@@ -242,4 +320,68 @@ body {
   border-radius: 0.5rem;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  color: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#confirm-age {
+  background-color: #22c55e;
+  color: white;
+}
+
+#confirm-age:hover {
+  background-color: #16a34a;
+}
+
+#deny-age {
+  background-color: #ef4444;
+  color: white;
+}
+
+#deny-age:hover {
+  background-color: #dc2626;
 }
