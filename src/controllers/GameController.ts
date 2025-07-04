@@ -46,7 +46,6 @@ export class GameController {
         cell.reveal();
 
         if (cell.hasMine) {
-          alert("💥 Lost! Multiplier: x" + this.totalCoefficient.toFixed(2));
           this.isGameActive = false;
 
           if (this.cashoutButton) {
@@ -99,8 +98,6 @@ export class GameController {
     const dropdown = document.getElementById("mine-count") as HTMLSelectElement;
     dropdown?.addEventListener("change", () => {
       this.mineCount = parseInt(dropdown.value);
-          console.log(this.mineCount)
-
     });
   }
 

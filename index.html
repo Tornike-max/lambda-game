@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lambda Test Game</title>
   <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="/src/main.ts"></script> <!-- ✅ -->
+
 </head>
 <body>
   <div class="game-ui">
@@ -32,10 +34,10 @@
       </label>
 
       <div class="bet-controls">
-        <span>Bet USD</span>
+        <span>Choose Amount</span>
         <div class="bet-input">
-          <button id="decrease">−</button>
-          <input type="number" id="bet" value="0.30" step="0.10" min="0.10" />
+          <button id="decrease">-</button>
+          <input type="number" id="bet" value="0.30" step="0.10" min="0.10" readonly />
           <button id="increase">+</button>
         </div>
       </div>
@@ -46,6 +48,26 @@
 
   </div>
 
-<script type="module" src="/src/main.ts"></script> <!-- ✅ -->
+  <div id="keypadPopupOverlay" class="popup-overlay">
+    <div class="popup-content keypad-popup">
+        <input type="number" id="betInputField" class="popup-input" placeholder="0.00" />
+        <div class="keypad">
+          <button class="key">1</button>
+          <button class="key">2</button>
+          <button class="key">3</button>
+          <button class="key">4</button>
+          <button class="key">5</button>
+          <button class="key">6</button>
+          <button class="key">7</button>
+          <button class="key">8</button>
+          <button class="key">9</button>
+          <button class="key">.</button>
+          <button class="key">0</button>
+          <button id="deleteKey">⌫</button>
+        </div>
+        <button id="confirmBet" class="confirm-btn">✓ Confirm</button>
+      </div>
+  </div>
 </body>
+
 </html>
